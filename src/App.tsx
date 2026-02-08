@@ -1,62 +1,48 @@
-import styled from 'styled-components'
-import { useEffect, useState } from 'react'
-import type { TEvent } from './types'
-import { Sidebar } from './components/Sidebar'
+import { Route, Switch } from 'wouter'
+import { ThemeProvider } from 'styled-components'
+import { Login } from './pages/Login'
+import { Dashboard } from './pages/Dashboard'
 
-const Layout = styled.div`
-  display: flex;
-  min-height: 100vh;
-`
+export const lightTheme = {
+  colorBlue: 'oklch(45% 0.5 264deg)',
+  colorRed: 'oklch(50% 0.55 31deg)',
+  gray50: 'oklch(98% 0.0025 264deg)',
+  gray100: 'oklch(12% 0.095 264deg / 5%)',
+  gray200: 'oklch(12% 0.09 264deg / 7%)',
+  gray300: 'oklch(12% 0.085 264deg / 17%)',
+  gray400: 'oklch(12% 0.08 264deg / 38%)',
+  gray500: 'oklch(12% 0.075 264deg / 50%)',
+  gray600: 'oklch(12% 0.07 264deg / 67%)',
+  gray700: 'oklch(12% 0.06 264deg / 77%)',
+  gray800: 'oklch(12% 0.05 264deg / 85%)',
+  gray900: 'oklch(12% 0.05 264deg / 90%)',
+  gray950: 'oklch(12% 0.05 264deg / 95%)',
+}
 
-const Main = styled.main`
-  flex: 1;
-  margin-left: 250px;
-  padding: 4rem;
-`
-
-const EventsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-
-  column-count: 3;
-  column-gap: 1rem;
-`
-
-const EventCard = styled.div`
-  border: 1px solid #e0e0e0;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-
-  width: 100%;
-`
+export const darkTheme = {
+  colorBlue: 'oklch(69% 0.5 264deg)',
+  colorRed: 'oklch(80% 0.55 31deg)',
+  gray50: 'oklch(17% 0.0025 264deg)',
+  gray100: 'oklch(28% 0.0075 264deg / 65%)',
+  gray200: 'oklch(29% 0.0075 264deg / 80%)',
+  gray300: 'oklch(35% 0.0075 264deg / 80%)',
+  gray400: 'oklch(47% 0.00875 264deg / 80%)',
+  gray500: 'oklch(64% 0.01 264deg / 80%)',
+  gray600: 'oklch(82% 0.01 264deg / 80%)',
+  gray700: 'oklch(92% 0.01125 264deg / 80%)',
+  gray800: 'oklch(93% 0.00875 264deg / 85%)',
+  gray900: 'oklch(95% 0.005 264deg / 90%)',
+  gray950: 'oklch(94% 0.00375 264deg / 95%)',
+}
 
 function App() {
-  const [events, setEvents] = useState([])
-
-  useEffect(() => {
-    fetch('https://api.hackthenorth.com/v3/events')
-      .then(response => response.json())
-      .then(data => setEvents(data))
-      .catch(error => console.error('Error fetching events:', error))
-  }, [])
-
   return (
-    <Layout>
-      <Sidebar />
-      <Main>
-        <h1>Schedule - Hackathon Global Inc.</h1>
-        <EventsContainer>
-          {events.map((event: TEvent) => (
-            <EventCard key={event.id}>
-              <h2>{event.name}</h2>
-              <p>{event.description}</p>
-            </EventCard>
-          ))}
-        </EventsContainer>
-      </Main>
-    </Layout>
+    <ThemeProvider theme={darkTheme}>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={Dashboard} />
+      </Switch>
+    </ThemeProvider>
   )
 }
 
