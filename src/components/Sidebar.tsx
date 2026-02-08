@@ -8,7 +8,7 @@ import {
   IconHomeFilled,
   IconCalendarWeekFilled,
   IconHexagonLetterDFilled,
-  IconAnalyze,
+  IconAnalyzeFilled,
   IconClipboardListFilled,
   IconBookFilled,
   IconLogout,
@@ -191,7 +191,7 @@ export function Sidebar() {
   return (
     <SidebarWrapper>
       <Logo>
-        <IconAnalyze size={28} stroke={2} />
+        <IconAnalyzeFilled size={28} stroke={2} />
         Hackathon Global
       </Logo>
       <Nav>
