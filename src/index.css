@@ -1,4 +1,11 @@
 body {
   margin: 0;
   font-family: 'Geist', sans-serif;
+
+  position: relative;
+}
+
+/* needed for base-ui modals and popups to work */
+#root {
+  isolation: isolate;
 }
