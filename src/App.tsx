@@ -1,8 +1,16 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import type { TEvent } from './types'
+import { Sidebar } from './components/Sidebar'
+
+const Layout = styled.div`
+  display: flex;
+  min-height: 100vh;
+`
 
 const Main = styled.main`
+  flex: 1;
+  margin-left: 250px;
   padding: 4rem;
 `
 
@@ -21,8 +29,6 @@ const EventCard = styled.div`
   border-radius: 0.5rem;
   margin-bottom: 1rem;
 
-  display: inline-block;
-  break-inside: avoid-column;
   width: 100%;
 `
 
@@ -37,17 +43,20 @@ function App() {
   }, [])
 
   return (
-    <Main>
-      <h1>Schedule - Hackathon Global Inc.</h1>
-      <EventsContainer>
-        {events.map((event: TEvent) => (
-          <EventCard key={event.id}>
-            <h2>{event.name}</h2>
-            <p>{event.description}</p>
-          </EventCard>
-        ))}
-      </EventsContainer>
-    </Main>
+    <Layout>
+      <Sidebar />
+      <Main>
+        <h1>Schedule - Hackathon Global Inc.</h1>
+        <EventsContainer>
+          {events.map((event: TEvent) => (
+            <EventCard key={event.id}>
+              <h2>{event.name}</h2>
+              <p>{event.description}</p>
+            </EventCard>
+          ))}
+        </EventsContainer>
+      </Main>
+    </Layout>
   )
 }
 
