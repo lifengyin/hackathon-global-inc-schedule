@@ -1,11 +1,11 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import type { TEvent } from '../types'
 import { MobileHeader } from '../components/MobileHeader'
 import { Sidebar } from '../components/Sidebar'
 import { Logo } from '../components/Logo'
 import { EventsGrid } from '../components/EventsGrid'
+import { useEvents } from '../hooks/useEvents'
 
 const Layout = styled.div`
   display: flex;
@@ -33,30 +33,37 @@ const PageTitle = styled.h1`
   color: #e4e6eb;
 `
 
+const LoadingMessage = styled.p`
+  margin: 0;
+  color: #9ca3af;
+  font-size: 0.9375rem;
+`
+
+const ErrorMessage = styled.p`
+  margin: 0;
+  color: #ef4444;
+  font-size: 0.9375rem;
+`
+
 export function Dashboard() {
-    const [events, setEvents] = useState<TEvent[]>([])
-    const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { events, loading, error } = useEvents()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
-    useEffect(() => {
-      fetch('https://api.hackthenorth.com/v3/events')
-        .then((response) => response.json())
-        .then((data) => setEvents(data))
-        .catch((error) => console.error('Error fetching events:', error))
-    }, [])
-
-    return (
-      <Layout>
-        <Sidebar
-          open={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-        />
-        <MobileHeader onMenuClick={() => setSidebarOpen(true)}>
-          <Logo />
-        </MobileHeader>
-        <Main>
-          <PageTitle>Schedule</PageTitle>
-          <EventsGrid events={events} />
-        </Main>
-      </Layout>
-    )
-  }
+  return (
+    <Layout>
+      <Sidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+      <MobileHeader onMenuClick={() => setSidebarOpen(true)}>
+        <Logo />
+      </MobileHeader>
+      <Main>
+        <PageTitle>Schedule</PageTitle>
+        {error && <ErrorMessage>Failed to load events. Please try again.</ErrorMessage>}
+        {loading && !error && <LoadingMessage>Loading events…</LoadingMessage>}
+        {!loading && !error && <EventsGrid events={events} />}
+      </Main>
+    </Layout>
+  )
+}
