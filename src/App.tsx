@@ -4,6 +4,8 @@ import { Login } from './pages/Login'
 import { Dashboard } from './pages/Dashboard'
 import useLocalStorage from 'use-local-storage'
 
+import '@fontsource-variable/geist';
+
 export const lightTheme = {
   colorBlue: 'oklch(45% 0.5 264deg)',
   colorRed: 'oklch(50% 0.55 31deg)',
