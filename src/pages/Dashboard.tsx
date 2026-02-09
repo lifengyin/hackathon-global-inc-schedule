@@ -53,6 +53,7 @@ export function Dashboard() {
               <EventCard key={event.id}>
                 <h2>{event.name}</h2>
                 <p>{event.description}</p>
+                <p>{new Date(event.start_time).toLocaleString()} - {new Date(event.end_time).toLocaleString()}</p>
               </EventCard>
             ))}
           </EventsContainer>

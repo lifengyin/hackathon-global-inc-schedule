@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import Avatar from 'boring-avatars'
 import { IconSettings, IconLogout, IconSelector } from '@tabler/icons-react'
+import { useLocation } from 'wouter'
+import useLocalStorage from 'use-local-storage'
 
 const UserBlock = styled.div`
   position: relative;
@@ -109,6 +111,8 @@ interface SidebarUserRowProps {
 export function SidebarUserRow({ user }: SidebarUserRowProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const userBlockRef = useRef<HTMLDivElement>(null)
+  const [, setIsLoggedIn] = useLocalStorage('isLoggedIn', false)
+  const [, navigate] = useLocation()
 
   useEffect(() => {
     if (!menuOpen) return
@@ -121,6 +125,11 @@ export function SidebarUserRow({ user }: SidebarUserRowProps) {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [menuOpen])
 
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+    setTimeout(() => navigate('/login'), 0)
+  }
+
   return (
     <UserBlock ref={userBlockRef}>
       <MoreMenu $open={menuOpen}>
@@ -128,7 +137,7 @@ export function SidebarUserRow({ user }: SidebarUserRowProps) {
           <IconSettings size={18} stroke={1.5} />
           Account settings
         </MoreMenuItem>
-        <MoreMenuItem onClick={() => setMenuOpen(false)}>
+        <MoreMenuItem onClick={handleLogout}>
           <IconLogout size={18} stroke={1.5} />
           Logout
         </MoreMenuItem>

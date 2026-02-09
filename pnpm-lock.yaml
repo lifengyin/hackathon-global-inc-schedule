@@ -26,6 +26,9 @@ importers:
       styled-components:
         specifier: ^6.3.8
         version: 6.3.8(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      use-local-storage:
+        specifier: ^3.0.0
+        version: 3.0.0(react@19.2.4)
       wouter:
         specifier: ^3.9.0
         version: 3.9.0(react@19.2.4)
@@ -1185,6 +1188,11 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  use-local-storage@3.0.0:
+    resolution: {integrity: sha512-wlPNnBCG3ULIJMr5A+dvWqLiPWCfsN1Kwijq+sAhT5yV4ex0u6XmZuNwP+RerIOfzBuz1pwSZuzhZMiluGQHfQ==}
+    peerDependencies:
+      react: '>=16.8.1'
+
   use-sync-external-store@1.6.0:
     resolution: {integrity: sha512-Pp6GSwGP/NrPIrxVFAIkOQeyw8lFenOHijQWkUTrDvrF4ALqylP2C/KCkeS9dpUM3KvYRQhna5vt7IL95+ZQ9w==}
     peerDependencies:
@@ -2319,6 +2327,10 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  use-local-storage@3.0.0(react@19.2.4):
+    dependencies:
+      react: 19.2.4
 
   use-sync-external-store@1.6.0(react@19.2.4):
     dependencies:

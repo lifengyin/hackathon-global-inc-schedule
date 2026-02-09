@@ -1,7 +1,8 @@
-import { Route, Switch } from 'wouter'
+import { Redirect, Route, Switch } from 'wouter'
 import { ThemeProvider } from 'styled-components'
 import { Login } from './pages/Login'
 import { Dashboard } from './pages/Dashboard'
+import useLocalStorage from 'use-local-storage'
 
 export const lightTheme = {
   colorBlue: 'oklch(45% 0.5 264deg)',
@@ -36,10 +37,12 @@ export const darkTheme = {
 }
 
 function App() {
+  const [isLoggedIn] = useLocalStorage('isLoggedIn', false)
+  
   return (
     <ThemeProvider theme={darkTheme}>
       <Switch>
-        <Route path="/login" component={Login} />
+        {isLoggedIn ? <Route path="/login"><Redirect to="/" /></Route> : <Route path="/login" component={Login} />}
         <Route path="/" component={Dashboard} />
       </Switch>
     </ThemeProvider>

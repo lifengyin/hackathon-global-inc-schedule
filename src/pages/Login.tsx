@@ -7,6 +7,7 @@ import { Field } from '../atoms/Field'
 import { Logo } from '../components/Logo'
 import { useLocation } from 'wouter'
 import { useState } from 'react'
+import useLocalStorage from 'use-local-storage'
 
 const Page = styled.div`
   min-height: 100vh;
@@ -195,10 +196,13 @@ export function Login() {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState<{ username?: string, password?: string }>({})
   const [, navigate] = useLocation()
+  const [, setIsLoggedIn] = useLocalStorage('isLoggedIn', false)
 
   const handleFormSubmit = (formValues: Record<string, unknown>) => {
     if (formValues.username === 'hacker' && formValues.password === 'htn2026') {
-      navigate('/')
+      setIsLoggedIn(true)
+      // Defer navigation so localStorage is written before Login unmounts
+      // setTimeout(() => navigate('/'), 0)
     } else {
       setErrors({ username: 'Invalid username or password' })
     }
