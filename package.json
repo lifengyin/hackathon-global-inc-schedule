@@ -12,6 +12,7 @@
   "dependencies": {
     "@base-ui/react": "^1.1.0",
     "@fontsource-variable/geist": "^5.2.8",
+    "@nozbe/microfuzz": "^1.0.0",
     "@tabler/icons-react": "^3.36.1",
     "boring-avatars": "^2.0.4",
     "react": "^19.2.0",
