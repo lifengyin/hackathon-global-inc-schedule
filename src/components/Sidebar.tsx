@@ -10,12 +10,13 @@ import {
 } from '@tabler/icons-react'
 import { Logo } from './Logo'
 import { SidebarUserRow } from './SidebarUserRow'
+import { Separator } from '@base-ui/react/separator'
 
 const SidebarWrapper = styled.aside`
   position: fixed;
   top: 0;
   left: 0;
-  width: 250px;
+  width: 275px;
   height: 100vh;
   background: #1a1d24;
   color: #e4e6eb;
@@ -24,12 +25,21 @@ const SidebarWrapper = styled.aside`
   flex-shrink: 0;
 `
 
+const LogoWrapper = styled.div`
+  padding: 1.25rem 1.5rem;
+`
+
 const Nav = styled.nav`
   flex: 1;
   padding: 1rem 0.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+`
+
+const Divider = styled(Separator)`
+  height: 1px;
+  background-color: #374151;
 `
 
 // Hardcode: all links are actually divs
@@ -61,13 +71,16 @@ const links = [
 
 const loggedInUser = {
   name: 'Lifeng Yin',
-  email: 'lifeng@hglobal.com',
+  email: 'lifeng@hackglobal.com',
 }
 
 export function Sidebar() {
   return (
     <SidebarWrapper>
-      <Logo />
+      <LogoWrapper>
+        <Logo />
+      </LogoWrapper>
+      <Divider />
       <Nav>
         {links.map(({ href, label, icon: Icon }) => (
           // Hardcode: schedule page as active
