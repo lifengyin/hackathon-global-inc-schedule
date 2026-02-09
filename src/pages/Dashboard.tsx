@@ -5,6 +5,8 @@ import type { TEvent } from '../types'
 import { MobileHeader } from '../components/MobileHeader'
 import { Sidebar } from '../components/Sidebar'
 import { Logo } from '../components/Logo'
+import { Badge } from '../atoms/Badge'
+import { IconTools, IconPuzzle, IconSpeakerphone } from '@tabler/icons-react'
 
 const dates: Record<string, string> = {
   '12/1/2021': 'Fri',
@@ -21,6 +23,24 @@ const formatDateAndTime = (timestamp: number) => {
     day: convertedWeekday,
     time: time,
   }
+}
+
+const EVENT_TYPES = {
+  'workshop': {
+    'name': 'Workshop',
+    'color': '#008c1280',
+    'icon': <IconTools size={20} stroke={1.5} />,
+  },
+  'activity': {
+    'name': 'Activity',
+    'color': '#8044b980',
+    'icon': <IconPuzzle size={20} stroke={1.5} />,
+  },
+  'tech_talk': {
+    'name': 'Tech Talk',
+    'color': '#0079ff80',
+    'icon': <IconSpeakerphone size={20} stroke={1.5} />,
+  },
 }
 
 const COVER_IMAGES = [
@@ -147,6 +167,16 @@ const EventCardTitle = styled.h2`
   color: #e4e6eb;
 `
 
+const EventInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  p {
+    margin: 0;
+  }
+`
+
 export function Dashboard() {
     const [events, setEvents] = useState<TEvent[]>([])
     const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -174,8 +204,13 @@ export function Dashboard() {
               <EventCard key={event.id}>
                 <EventCardImage src={getCoverImageForEvent(event.id)} alt="" />
                 <EventCardTitle>{event.name}</EventCardTitle>
-                {/* <p>{event.description}</p> */}
-                <p>{formatDateAndTime(event.start_time).formatted}</p>
+                <EventInfoContainer>
+                  <Badge
+                    icon={EVENT_TYPES[event.event_type].icon}
+                    color={EVENT_TYPES[event.event_type].color}
+                  >{EVENT_TYPES[event.event_type].name}</Badge>
+                  <p>{formatDateAndTime(event.start_time).formatted}</p>
+                </EventInfoContainer>
               </EventCard>
             ))}
           </EventsContainer>
