@@ -74,12 +74,40 @@ const DialogMeta = styled.div`
   margin-bottom: 1rem;
 `
 
+const RelatedEventsSection = styled.div`
+  margin-top: 1rem;
+`
+
+const RelatedEventsLabel = styled.p`
+  margin: 0 0 0.25rem;
+  font-size: 0.9375rem;
+  color: #9ca3af;
+`
+
+const RelatedEventsList = styled.ul`
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.9375rem;
+  color: #9ca3af;
+`
+
+const Bolded = styled.span`
+  font-weight: 600;
+  color: #e4e6eb;
+`
+
 export type EventCardDialogProps = {
   event: TEvent | null
+  allEvents: TEvent[]
   onClose: () => void
 }
 
-export function EventCardDialog({ event, onClose }: EventCardDialogProps) {
+export function EventCardDialog({ event, allEvents, onClose }: EventCardDialogProps) {
+  const relatedByName = event
+    ? event.related_events
+        .map((id) => allEvents.find((e) => e.id === id)?.name)
+        .filter((name): name is string => name != null)
+    : []
   return (
     <Dialog.Root
       open={event !== null}
@@ -109,8 +137,18 @@ export function EventCardDialog({ event, onClose }: EventCardDialogProps) {
               </DialogMeta>
               {event.speakers?.length > 0 && (
                 <p style={{ margin: 0, fontSize: '0.9375rem', color: '#9ca3af' }}>
-                  Speakers: {event.speakers.map((s) => s.name).join(', ')}
+                  <Bolded>Speakers</Bolded>: {event.speakers.map((s) => s.name).join(', ')}
                 </p>
+              )}
+              {relatedByName.length > 0 && (
+                <RelatedEventsSection>
+                  <RelatedEventsLabel><Bolded>Related events</Bolded>:</RelatedEventsLabel>
+                  <RelatedEventsList>
+                    {relatedByName.map((name) => (
+                      <li key={name}>{name}</li>
+                    ))}
+                  </RelatedEventsList>
+                </RelatedEventsSection>
               )}
               <DialogCloseButton render={<button type="button" aria-label="Close"><IconX size={20} stroke={1.5} /></button>} />
             </>

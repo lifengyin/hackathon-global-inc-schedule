@@ -28,7 +28,7 @@ export function EventsGrid({ events }: EventsGridProps) {
           />
         ))}
       </EventsGridContainer>
-      <EventCardDialog event={selectedEvent} onClose={() => setSelectedEvent(null)} />
+      <EventCardDialog event={selectedEvent} allEvents={events} onClose={() => setSelectedEvent(null)} />
     </>
   )
 }

@@ -14,7 +14,7 @@ import { Logo } from './Logo'
 import { SidebarUserRow } from './SidebarUserRow'
 import { Separator } from '@base-ui/react/separator'
 
-const Overlay = styled.div<{ $visible: boolean }>`
+const Overlap = styled.div<{ $visible: boolean }>`
   display: none;
   @media (max-width: 768px) {
     display: block;
@@ -133,7 +133,7 @@ type SidebarProps = {
 export function Sidebar({ open = true, onClose }: SidebarProps) {
   return (
     <>
-      <Overlay $visible={open} onClick={onClose} aria-hidden />
+      <Overlap $visible={open} onClick={onClose} aria-hidden />
       <SidebarWrapper $open={open}>
         <CloseButton type="button" onClick={onClose} aria-label="Close menu">
           <IconX size={24} />
