@@ -7,26 +7,77 @@ import {
   IconHexagonLetterDFilled,
   IconClipboardListFilled,
   IconBookFilled,
+  IconX,
 } from '@tabler/icons-react'
+import { Button } from '../atoms/Button'
 import { Logo } from './Logo'
 import { SidebarUserRow } from './SidebarUserRow'
 import { Separator } from '@base-ui/react/separator'
 
-const SidebarWrapper = styled.aside`
+const Overlay = styled.div<{ $visible: boolean }>`
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    opacity: ${(p) => (p.$visible ? 1 : 0)};
+    visibility: ${(p) => (p.$visible ? 'visible' : 'hidden')};
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+  }
+`
+
+const SidebarWrapper = styled.aside<{ $open: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  width: 275px;
+  width: 260px;
   height: 100vh;
   background: #1a1d24;
   color: #e4e6eb;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  z-index: 100;
+  transition: transform 0.25s ease;
+
+  @media (max-width: 768px) {
+    transform: translateX(${(p) => (p.$open ? '0%' : '-100%')});
+  }
+`
+
+const CloseButton = styled(Button)`
+  display: none;
+  @media (max-width: 768px) {
+    display: flex;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 0.5rem;
+    background: transparent;
+    color: #9ca3af;
+
+    &:hover:not([data-disabled]) {
+      color: #e4e6eb;
+      background: rgba(255, 255, 255, 0.06);
+    }
+  }
 `
 
 const LogoWrapper = styled.div`
   padding: 1.25rem 1.5rem;
+
+  @media (max-width: 768px) {
+    padding-right: 3rem;
+  }
 `
 
 const Nav = styled.nav`
@@ -74,23 +125,33 @@ const loggedInUser = {
   email: 'lifeng@hackglobal.com',
 }
 
-export function Sidebar() {
+type SidebarProps = {
+  open?: boolean
+  onClose?: () => void
+}
+
+export function Sidebar({ open = true, onClose }: SidebarProps) {
   return (
-    <SidebarWrapper>
-      <LogoWrapper>
-        <Logo />
-      </LogoWrapper>
-      <Divider />
-      <Nav>
-        {links.map(({ href, label, icon: Icon }) => (
-          // Hardcode: schedule page as active
-          <NavLink key={href} $active={label === 'Schedule'}>
-            <Icon size={20} stroke={1.5} />
-            {label}
-          </NavLink>
-        ))}
-      </Nav>
-      <SidebarUserRow user={loggedInUser} />
-    </SidebarWrapper>
+    <>
+      <Overlay $visible={open} onClick={onClose} aria-hidden />
+      <SidebarWrapper $open={open}>
+        <CloseButton type="button" onClick={onClose} aria-label="Close menu">
+          <IconX size={24} />
+        </CloseButton>
+        <LogoWrapper>
+          <Logo />
+        </LogoWrapper>
+        <Divider />
+        <Nav>
+          {links.map(({ href, label, icon: Icon }) => (
+            <NavLink key={href} $active={label === 'Schedule'}>
+              <Icon size={20} stroke={1.5} />
+              {label}
+            </NavLink>
+          ))}
+        </Nav>
+        <SidebarUserRow user={loggedInUser} />
+      </SidebarWrapper>
+    </>
   )
 }
