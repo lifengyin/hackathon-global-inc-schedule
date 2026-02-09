@@ -74,6 +74,17 @@ const DialogMeta = styled.div`
   margin-bottom: 1rem;
 `
 
+const DialogMetaTime = styled.span`
+  font-size: 0.9375rem;
+  color: #9ca3af;
+`
+
+const DialogSecondaryText = styled.p`
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #9ca3af;
+`
+
 const RelatedEventsSection = styled.div`
   margin-top: 1rem;
 `
@@ -129,16 +140,16 @@ export function EventCardDialog({ event, allEvents, onClose }: EventCardDialogPr
                 >
                   {EVENT_TYPES[event.event_type].name}
                 </Badge>
-                <span style={{ color: '#9ca3af', fontSize: '0.9375rem' }}>
+                <DialogMetaTime>
                   {formatDateAndTime(event.start_time).formatted}
                   {' – '}
                   {formatDateAndTime(event.end_time).time}
-                </span>
+                </DialogMetaTime>
               </DialogMeta>
               {event.speakers?.length > 0 && (
-                <p style={{ margin: 0, fontSize: '0.9375rem', color: '#9ca3af' }}>
+                <DialogSecondaryText>
                   <Bolded>Speakers</Bolded>: {event.speakers.map((s) => s.name).join(', ')}
-                </p>
+                </DialogSecondaryText>
               )}
               {relatedByName.length > 0 && (
                 <RelatedEventsSection>
