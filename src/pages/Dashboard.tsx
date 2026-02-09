@@ -5,7 +5,7 @@ import type { TEvent } from '../types'
 import { MobileHeader } from '../components/MobileHeader'
 import { Sidebar } from '../components/Sidebar'
 import { Logo } from '../components/Logo'
-import { Events } from '../components/Events'
+import { EventsGrid } from '../components/EventsGrid'
 
 const Layout = styled.div`
   display: flex;
@@ -55,7 +55,7 @@ export function Dashboard() {
         </MobileHeader>
         <Main>
           <PageTitle>Schedule</PageTitle>
-          <Events events={events} />
+          <EventsGrid events={events} />
         </Main>
       </Layout>
     )
